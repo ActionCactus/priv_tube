@@ -1,0 +1,9 @@
+# https://github.com/compose-spec/compose-spec/blob/master/spec.md
+
+version: "0.1"
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    command: python ./priv_tube/web/api.py

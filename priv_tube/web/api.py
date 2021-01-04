@@ -1,7 +1,7 @@
 from flask import Flask, render_template
 from werkzeug.serving import run_simple
 
-app = Flask("priv_tube")
+app = Flask("priv_tube", template_folder="./templates")
 
 
 @app.route("/")
