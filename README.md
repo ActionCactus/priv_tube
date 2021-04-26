@@ -1,6 +1,12 @@
 # priv_tube
 A simple, private content sharing system for use by small groups of people.  The goal is to provide users the ability to link their own, private media servers in to a network which offers access control rules in addition to useful features like search and simple community capabilities, like view counts and comments.
 
+# Running
+
+```bash
+python3 priv_tube/api.py
+```
+
 # Definition of Terms
 
 * A _content network_ is a collection of servers which are configured to host and share content via Content Management APIs.
