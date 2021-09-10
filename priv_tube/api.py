@@ -36,5 +36,4 @@ def index():
 
 if __name__ == "__main__":
     # this is here because we're presently running the app using python, instead of directly using flask
-    # run_simple("localhost", 5000, app)
     app.run("localhost", 5000, debug=True)

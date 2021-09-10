@@ -1,10 +1,15 @@
+# PROOF OF CONCEPT
+
 # priv_tube
 A simple, private content sharing system for use by small groups of people.  The goal is to provide users the ability to link their own, private media servers in to a network which offers access control rules in addition to useful features like search and simple community capabilities, like view counts and comments.
 
 # Running
 
 ```bash
-python3 priv_tube/api.py
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python -m priv_tube.api
 ```
 
 # Definition of Terms
