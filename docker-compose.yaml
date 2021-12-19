@@ -1,20 +1,16 @@
 # https://github.com/compose-spec/compose-spec/blob/master/spec.md
 # https://www.docker.com/blog/developing-docker-windows-app-wsl2/
+# Reference project: https://github.com/shekhargulati/python-flask-docker-hello-world
 
 version: "3.3"
 services:
   web:
     build: .
-    network_mode: host
     ports:
-      - "5000:5000"
-    command: python /app/api.py
+      - 5000:5000
+    command: python -m priv_tube.api run
+    environment:
+      FLASK_DEBUG: '1'
+      FLASK_APP: priv_tube.api
     volumes:
-      - ./priv_tube:/app
-    # command:
-    # - gunicorn
-    # - app.wsgi
-    # - --bind=0.0.0.0:5000
-    # - --workers=${WEB_CONCURRENCY:-1}
-    # - --preload
-    # - --access-logfile=-
+      - ./:/app

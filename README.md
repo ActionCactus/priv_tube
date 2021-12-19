@@ -12,6 +12,13 @@ pip install -r requirements.txt
 python -m priv_tube.api
 ```
 
+Or, if you're using Docker:
+
+```bash
+docker-compose build web
+docker-compose run --service-ports web
+```
+
 # Definition of Terms
 
 * A _content network_ is a collection of servers which are configured to host and share content via Content Management APIs.
