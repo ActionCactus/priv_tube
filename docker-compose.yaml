@@ -11,9 +11,20 @@ services:
     ports:
       - 5000:5000
     entrypoint: python -m priv_tube.api run
-    # command: python -m priv_tube.api run
     environment:
       FLASK_DEBUG: '1'
       FLASK_APP: priv_tube.api
     volumes:
       - ./:/app
+
+  database:
+    build:
+      context: ./priv_tube/cms/db
+      dockerfile: ../../../docker/database.dockerfile
+    # ports:
+    #   - 5000:5000
+    # environment:
+    #   FLASK_DEBUG: '1'
+    #   FLASK_APP: priv_tube.cms.db.app
+    # volumes:
+    #   - ./:/app
