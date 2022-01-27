@@ -1,12 +1,18 @@
-from flask import Flask
+from flask import Flask, Response
 import os
+import json
 
 app = Flask(__name__)
 
 
 @app.route("/")
 def hello():
-    return "Big memes"
+    response = Response()
+    response.headers.add("Content-Type", "application/json")
+    response.set_data(
+        json.dumps({"data": {"message": "Big memes", "href": "http://www.google.com"}})
+    )
+    return response
 
 
 if __name__ == "__main__":
