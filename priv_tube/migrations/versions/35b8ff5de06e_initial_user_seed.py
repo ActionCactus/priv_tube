@@ -7,8 +7,7 @@ Create Date: 2022-01-27 01:44:16.436195
 """
 from alembic import op
 import sqlalchemy as sa
-import sqlite3
-
+from sqlalchemy.sql import table, column
 
 # revision identifiers, used by Alembic.
 revision = "35b8ff5de06e"
@@ -18,16 +17,13 @@ depends_on = None
 
 
 def upgrade():
-    connection = sqlite3.connect("app.db")
-    cursor = connection.cursor()
-    cursor.execute(
-        """
-        INSERT INTO users(first_name, last_name) VALUES ("First Name", "Last Name");
-        """
+    usr_tbl = table(
+        "users",
+        column("id", sa.Integer()),
+        column("first_name", sa.String(length=128)),
+        column("last_name", sa.String(length=128)),
     )
-
-    inserted_data = cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
-    print(inserted_data.fetchall())
+    op.bulk_insert(usr_tbl, [{"first_name": "First Name", "last_name": "Last Name"}])
 
 
 def downgrade():

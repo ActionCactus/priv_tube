@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 import sqlite3
+import os
 
 
 class RegistryNotInitializedException(Exception):
@@ -55,7 +56,7 @@ class SQLiteRegistry(ContentRegistry):
 
     def initialize_registry(self):
         # we want to bubble the error up to print it for now
-        self.connection = sqlite3.connect(":memory:")
+        self.connection = sqlite3.connect(os.environ["DB_LOCATION"])
         cursor = self.connection.cursor()
         table_list = cursor.execute(
             """

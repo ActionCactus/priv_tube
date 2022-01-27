@@ -14,17 +14,20 @@ services:
     environment:
       FLASK_DEBUG: '1'
       FLASK_APP: priv_tube.api
+      DB_LOCATION: /app/app.db
     volumes:
       - ./:/app
+    depends_on:
+      - database
 
   database:
     build:
       context: .
       dockerfile: ./docker/database.dockerfile
-    # ports:
-    #   - 5000:5000
-    # environment:
-    #   FLASK_DEBUG: '1'
-    #   FLASK_APP: priv_tube.cms.db.app
+    environment:
+      FLASK_DEBUG: '1'
+      FLASK_APP: priv_tube.api
+      DB_LOCATION: /app/app.db
     volumes:
       - ./docker/db_init.sh:/app/docker/db_init.sh
+      - ./:/app
