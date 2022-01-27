@@ -132,4 +132,4 @@ dmypy.json
 .vscode/
 
 # Ignore the SQLite file until we get it into its own repository
-*.db
+data/

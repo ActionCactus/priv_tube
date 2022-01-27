@@ -20,6 +20,9 @@ services:
       - ./data:/app/data
     depends_on:
       - database
+      - grafana
+      - influx
+      - chronograf
 
   database:
     build:
@@ -33,3 +36,20 @@ services:
       - ./docker/db_init.sh:/app/docker/db_init.sh
       - ./priv_tube:/app/priv_tube
       - ./data:/app/data
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - 3000:3000
+    volumes:
+      - ./data/grafana:/var/lib/grafana
+
+  influx:
+    image: influxdb:latest
+    ports:
+      - 8086:8086
+
+  chronograf:
+    image: chronograf:latest
+    ports:
+      - 8888:8888
