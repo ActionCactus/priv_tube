@@ -17,8 +17,22 @@ migrate = Migrate(app, db)
 def hello():
     response = Response()
     response.headers.add("Content-Type", "application/json")
+
+    # List of Row objects: https://docs.sqlalchemy.org/en/14/core/connections.html#sqlalchemy.engine.Row
+    res = db.session.execute("SELECT * FROM users").all()
+
+    db_vals = [row._asdict() for row in res]
+
     response.set_data(
-        json.dumps({"data": {"message": "Big memes", "href": "http://www.google.com"}})
+        json.dumps(
+            {
+                "data": {
+                    "message": "Big memes",
+                    "db_values": db_vals,
+                    "href": "http://www.google.com",
+                }
+            }
+        )
     )
     return response
 

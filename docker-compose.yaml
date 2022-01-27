@@ -14,9 +14,10 @@ services:
     environment:
       FLASK_DEBUG: '1'
       FLASK_APP: priv_tube.api
-      DB_LOCATION: /app/app.db
+      DB_LOCATION: /app/data/app.db
     volumes:
-      - ./:/app
+      - ./priv_tube:/app/priv_tube
+      - ./data:/app/data
     depends_on:
       - database
 
@@ -27,7 +28,8 @@ services:
     environment:
       FLASK_DEBUG: '1'
       FLASK_APP: priv_tube.api
-      DB_LOCATION: /app/app.db
+      DB_LOCATION: /app/data/app.db
     volumes:
       - ./docker/db_init.sh:/app/docker/db_init.sh
-      - ./:/app
+      - ./priv_tube:/app/priv_tube
+      - ./data:/app/data
