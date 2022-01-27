@@ -6,9 +6,9 @@ RUN apt-get install -y sqlite3
 RUN sqlite3 --version
 
 # -----------------------------------------------------------------------------
-# FROM python:3.8.7-slim
+FROM python:latest AS target-env
 
-# COPY --from=build-env /usr/bin/sqlite3 /usr/bin/sqlite3
+COPY --from=build-env /usr/bin/sqlite3 /usr/bin/sqlite3
 
 # Create a group and user for SQLite3 to avoid: Dockle CIS-DI-0001
 RUN adduser --system --group sqlite
@@ -19,10 +19,10 @@ USER sqlite
 COPY . /app
 WORKDIR /app
 
-# Install Python packages for migrations
+# Install Python packages for migration setup
 RUN pip install -r requirements.txt
 
-# Set container's default command as `sqlite3`
+# Set container's default command as the init script
 CMD ./docker/db_init.sh
 
 # Avoid: Dockle CIS-DI-0006
