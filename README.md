@@ -19,6 +19,15 @@ docker-compose build web
 docker-compose run --service-ports web
 ```
 
+# Creating Database Modifications
+We use flask-migrate to manage all of our database migrations, and it in turn uses alembic.
+When you create or modify a SQLAlchemy model, run `flask db migrate -m"your migration name here"` from the `/priv_tube/cms/db` folder to generate a new migration bringing in your changes.
+When you need to create a new custom migration (to do something like generate a seed or create a stored procedure), instead run `alembic revision -m"your migration name here"` from the `/priv_tube/cms/db/migrations`.
+
+To upgrade/downgrade the db, run `flask db upgrade/downgrade` locally (if you're working with it directly instead of using the docker image);
+
+In both of the above scenarios, you will need to commit all the generated files.
+
 # Definition of Terms
 
 * A _content network_ is a collection of servers which are configured to host and share content via Content Management APIs.
