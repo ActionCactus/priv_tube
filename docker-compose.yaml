@@ -19,12 +19,12 @@ services:
 
   database:
     build:
-      context: ./priv_tube/cms/db
-      dockerfile: ../../../docker/database.dockerfile
+      context: .
+      dockerfile: ./docker/database.dockerfile
     # ports:
     #   - 5000:5000
     # environment:
     #   FLASK_DEBUG: '1'
     #   FLASK_APP: priv_tube.cms.db.app
-    # volumes:
-    #   - ./:/app
+    volumes:
+      - ./docker/db_init.sh:/app/docker/db_init.sh
