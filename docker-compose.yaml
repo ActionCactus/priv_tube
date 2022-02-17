@@ -5,6 +5,7 @@
 version: "3.3"
 services:
   web:
+    hostname: web
     build:
       context: .
       dockerfile: docker/api.dockerfile
@@ -25,6 +26,7 @@ services:
       - chronograf
 
   database:
+    hostname: db
     build:
       context: .
       dockerfile: ./docker/database.dockerfile
@@ -38,18 +40,21 @@ services:
       - ./data:/app/data
 
   grafana:
+    hostname: grafana
     image: grafana/grafana:latest
     ports:
       - 3000:3000
     volumes:
-      - ./data/grafana:/var/lib/grafana
+      - ./data/grafana:/var/lib/grafana # Where user data goes.  Make it a host volume unless you want to recreate stuff every time you boot
 
   influx:
+    hostname: influx
     image: influxdb:latest
     ports:
       - 8086:8086
 
   chronograf:
+    hostname: chronograf
     image: chronograf:latest
     ports:
       - 8888:8888
