@@ -31,9 +31,11 @@ def hello():
                     "db_values": db_vals,
                     "href": "http://www.google.com",
                 }
-            }
+            },
+            indent=4,
         )
     )
+
     return response
 
 
