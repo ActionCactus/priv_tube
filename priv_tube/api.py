@@ -4,6 +4,14 @@ import json
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
+
+def initialize():
+    input("Set up your environment now.")
+
+    # run all system checks here
+
+
+initialize()
 app = Flask(__name__)
 db_file = os.environ["DB_LOCATION"]
 app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{db_file}"
