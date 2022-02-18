@@ -8,10 +8,18 @@ A simple, private content sharing system for use by small groups of people.  The
 The first deployment of the application requires some setup in order to create necessary administrative accounts for all services.  Web application data is currently configured to go in the `./data` folder (this should be changed to the [Filesystem Hierarchy Standard](https://refspecs.linuxfoundation.org/FHS_3.0/fhs/index.html) for the default in the future, and we can provide Windows users with customization options should they want them).
 
 ### Runbook
+
+#### Spin Up Application
 1.  Build the app image with `docker-compose build web`
-2.  Deploy the app with `docker-compose run --service-ports web`
-3.  Navigate to the InfluxDB management interface at [http://localhost:8086/signin](http://localhost:8086/signin)
-4.  Create a user account for Influx
+2.  Deploy the app with `docker-compose run --service-ports web` and wait until you are prompted to configure the environment
+
+#### Set Up Authentication
+3.  Import the Keycloak configuration found at `./resources/system/keycloak/realm-export.json` (overwrite if a resource exists)
+4.  Ensure the following realms exist by hovering over the current realm name (`Master`) in the upper left hand corner:
+    1.  `Admin`
+    2.  `System`
+    3.  `User`
+5.  Select the `Master` realm and modify the admin password (be sure to store this in a secure password database, such as [Keepass](https://keepass.info/))
 
 ## Running
 ```bash
@@ -41,6 +49,9 @@ When you need to create a new custom migration (to do something like generate a 
 To upgrade/downgrade the db, run `flask db upgrade/downgrade` locally (if you're working with it directly instead of using the docker image);
 
 In both of the above scenarios, you will need to commit all the generated files.
+
+## Updating The Template Keycloak Configuration
+Run `docker-compose run export_keycloak` and then copy the contents of the JSON file generated in `./data/keycloak_export` to the template in `./resources/system/keycloak/keycloak-export.json`.
 
 # Definition of Terms
 

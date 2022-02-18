@@ -26,6 +26,11 @@ services:
       - chronograf
       - keycloak
 
+#################################################################################
+############################ Transient Processes ################################
+#################################################################################
+
+# All this does is run the flask-migrate migrations to seed the DB.  Process eventually shuts down
   database:
     hostname: db
     build:
@@ -40,15 +45,19 @@ services:
       - ./priv_tube:/app/priv_tube
       - ./data:/app/data
 
+#################################################################################
+################################## Sidecars #####################################
+#################################################################################
   keycloak_db:
     image: mysql:5.7
     volumes:
-      - mysql_data:/var/lib/mysql
+      - ./data/keycloak_db:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: keycloak
       MYSQL_USER: keycloak
       MYSQL_PASSWORD: password
+
   keycloak:
     hostname: keycloak
     image: quay.io/keycloak/keycloak:17.0.0
@@ -87,6 +96,32 @@ services:
     ports:
       - 8888:8888
 
+
+#################################################################################
+################################## Scripts ######################################
+#################################################################################
+
+# Used to export the keycloak configuration to ./data/keycloak_export.  This is done when generating a new Keycloak template configuration.
+# Will generate a JSON file in the ./data/keycloak_export directory which should be copied to ./resources/system/keycloak/keycloak-export.json.
+  export_keycloak:
+    image: quay.io/keycloak/keycloak:17.0.0
+    environment:
+      DB_VENDOR: MYSQL
+      DB_ADDR: mysql
+      DB_DATABASE: keycloak
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    ports:
+      - 8080:8080
+    entrypoint: /opt/keycloak/bin/kc.sh export --dir /var/lib/kc_export
+    depends_on:
+      - keycloak_db
+    volumes:
+      - ./data/keycloak_export:/var/lib/kc_export
+
+#################################################################################
+################################## Volumes ######################################
+#################################################################################
 volumes:
   mysql_data:
       driver: local
