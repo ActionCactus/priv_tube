@@ -24,6 +24,7 @@ services:
       - grafana
       - influx
       - chronograf
+      - keycloak
 
   database:
     hostname: db
@@ -38,6 +39,30 @@ services:
       - ./docker/db_init.sh:/app/docker/db_init.sh
       - ./priv_tube:/app/priv_tube
       - ./data:/app/data
+
+  keycloak_db:
+    image: mysql:5.7
+    volumes:
+      - mysql_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: keycloak
+      MYSQL_USER: keycloak
+      MYSQL_PASSWORD: password
+  keycloak:
+    hostname: keycloak
+    image: quay.io/keycloak/keycloak:17.0.0
+    environment:
+      DB_VENDOR: MYSQL
+      DB_ADDR: mysql
+      DB_DATABASE: keycloak
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    ports:
+      - 8080:8080
+    entrypoint: /opt/keycloak/bin/kc.sh start-dev
+    depends_on:
+      - keycloak_db
 
   grafana:
     hostname: grafana
@@ -61,3 +86,7 @@ services:
     image: chronograf:latest
     ports:
       - 8888:8888
+
+volumes:
+  mysql_data:
+      driver: local
