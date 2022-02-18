@@ -23,7 +23,6 @@ services:
       - database
       - grafana
       - influx
-      - chronograf
       - keycloak
 
 #################################################################################
@@ -89,12 +88,8 @@ services:
       DOCKER_INFLUXDB_INIT_PASSWORD: admin # Initial setup requires that
     ports:
       - 8086:8086
-
-  chronograf:
-    hostname: chronograf
-    image: chronograf:latest
-    ports:
-      - 8888:8888
+    volumes:
+      - ./resources/system/influx/telegraf.conf:/etc/influxdb/influxdb.conf
 
 
 #################################################################################
