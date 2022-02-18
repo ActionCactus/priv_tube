@@ -38,6 +38,9 @@ python -m priv_tube.api
 
 
 # For Developers
+## The Makefile
+We have a Makefile created in the root of this directory for storing and executing commonly used commands.
+
 ## Conventions
 We are using the PEP8 formatting standard.
 

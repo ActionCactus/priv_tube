@@ -1,9 +1,11 @@
-SHELL := /bin/zsh
-.ONESHELL:
+dev-setup:
+	. .venv/bin/activate & pip install -r requirements.txt
 
+static-analysis:
+	./docker/run_static_analysis.sh
 
 full-reset:
-	rm -r data/app.db
+	rm -r data/*
 
 init-db:
 	touch data/app.db
