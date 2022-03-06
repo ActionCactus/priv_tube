@@ -1,3 +1,5 @@
 flask==2.0.3
 SQLAlchemy==1.4.1
 Flask-Migrate==3.1.0
+influxdb-client==1.25.0
+pytest==7.0.1

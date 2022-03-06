@@ -1,5 +1,8 @@
-dev-setup:
-	. .venv/bin/activate & pip install -r requirements.txt
+setup-dev:
+	python -m pip install -r requirements.txt
+
+test:
+	python -m pytest
 
 static-analysis:
 	./docker/run_static_analysis.sh
