@@ -3,7 +3,7 @@ import pytest
 import logging
 import os
 
-from priv_tube.core.boot.initialization_routines.configure_logger import ColorizedLogFormatter, ConfigureLogger
+from priv_tube.core.boot.initialization_routines.configure_logger import ConfigureLogger
 from priv_tube.core.exceptions import SystemConfigurationError
 
 logger = logging.getLogger(__name__)
