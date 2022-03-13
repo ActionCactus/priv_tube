@@ -1,17 +1,15 @@
-from flask import Flask, Response
 import os
 import json
+import sqlalchemy
+from flask import Flask, Response
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
-
-def initialize():
-    input("Set up your environment now.")
-
-    # run all system checks here
+from priv_tube.core.boot.initialization_routines.routines import initialize
+from priv_tube.core.boot.initialization_routines.execution_targets import ExecutionTargets
 
 
-initialize()
+initialize(ExecutionTargets.PRE_SYSTEM_CHECK)
 app = Flask(__name__)
 db_file = os.environ["DB_LOCATION"]
 app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{db_file}"
@@ -52,7 +50,7 @@ if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=port)
 
 
-class User(db.Model):
+class User(sqlalchemy.Model):
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(128))
     last_name = db.Column(db.String(128))
