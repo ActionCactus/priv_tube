@@ -6,6 +6,8 @@ import os
 from priv_tube.core.boot.initialization_routines.configure_logger import ColorizedLogFormatter, ConfigureLogger
 from priv_tube.core.exceptions import SystemConfigurationError
 
+logger = logging.getLogger(__name__)
+
 
 class ConfigureLoggerTest(TestCase):
     def test_resolving_log_level_with_env_variable(self):
@@ -42,16 +44,16 @@ class ConfigureLoggerTest(TestCase):
 @pytest.mark.parametrize(
     "ll_env,lf_env,func",
     [
-        ("debug", "colorized", logging.debug),
-        ("debug", "colorized", logging.info),
-        ("debug", "colorized", logging.warning),
-        ("debug", "colorized", logging.error),
-        ("debug", "colorized", logging.critical),
-        ("debug", "plain", logging.debug),
-        ("debug", "plain", logging.info),
-        ("debug", "plain", logging.warning),
-        ("debug", "plain", logging.error),
-        ("debug", "plain", logging.critical),
+        ("debug", "colorized", logger.debug),
+        ("debug", "colorized", logger.info),
+        ("debug", "colorized", logger.warning),
+        ("debug", "colorized", logger.error),
+        ("debug", "colorized", logger.critical),
+        ("debug", "plain", logger.debug),
+        ("debug", "plain", logger.info),
+        ("debug", "plain", logger.warning),
+        ("debug", "plain", logger.error),
+        ("debug", "plain", logger.critical),
     ],
 )
 def test_all_formatters_work_correctly(ll_env, lf_env, func):

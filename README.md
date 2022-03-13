@@ -10,8 +10,8 @@ The first deployment of the application requires some setup in order to create n
 ### Runbook
 
 #### Spin Up Application
-1.  Build the app image with `docker-compose build web`
-2.  Deploy the app with `docker-compose run --service-ports web` and wait until you are prompted to configure the environment
+1.  Build the app image with `docker-compose build app`
+2.  Deploy the app with `docker-compose run --service-ports app` and wait until you are prompted to configure the environment
 
 #### Set Up Authentication
 3.  Import the Keycloak configuration found at `./resources/system/keycloak/realm-export.json` (overwrite if a resource exists)
@@ -23,8 +23,8 @@ The first deployment of the application requires some setup in order to create n
 
 ## Running
 ```bash
-docker-compose build web
-docker-compose run --service-ports web
+docker-compose build app
+docker-compose run --service-ports app
 ```
 
 Or, if you're running without Docker (not recommended - all services required for the system to run are configured to be spun up via docker-compose):

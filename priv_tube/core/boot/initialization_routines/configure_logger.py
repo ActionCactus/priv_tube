@@ -6,6 +6,8 @@ from typing import Tuple
 import logging
 import os
 
+logger = logging.getLogger(__name__)
+
 
 class ConfigureLogger(InitializationRoutine):
     """
@@ -42,10 +44,11 @@ class ConfigureLogger(InitializationRoutine):
         handler.setFormatter(formatter)
 
         # Set globals
-        logging.basicConfig(level=default_log_level, handlers=[handler])
+        logger.addHandler(handler)
+        logger.setLevel(default_log_level)
 
         # Log results
-        logging.debug(f"Log level set to {ll_name} by {ll_resolution}.  Formatter set to {f_name} by {f_resolution}.")
+        logger.debug(f"Log level set to {ll_name} by {ll_resolution}.  Formatter set to {f_name} by {f_resolution}.")
 
     @property
     def execution_target(self) -> ExecutionTargets:
