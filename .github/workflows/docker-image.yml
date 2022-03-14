@@ -1,0 +1,20 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the app image
+      run: docker build . --file docker/api.dockerfile --tag app:$(date +%s)
+    - name: Build the database image
+      run: docker build . --file docker/database.dockerfile --tag db:$(date +%s)
