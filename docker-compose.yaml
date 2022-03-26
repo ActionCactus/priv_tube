@@ -11,12 +11,12 @@ services:
       dockerfile: docker/api.dockerfile
     ports:
       - 5000:5000
-    entrypoint: python -m priv_tube.api run
+    entrypoint: python -m priv_tube.app run
     environment:
       LOG_LEVEL: debug
       LOG_FORMATTER: colorized
       FLASK_DEBUG: '1'
-      FLASK_APP: priv_tube.api
+      FLASK_APP: priv_tube.app
       DB_LOCATION: /app/data/app.db
     volumes:
       - ./priv_tube:/app/priv_tube
@@ -39,7 +39,7 @@ services:
       dockerfile: ./docker/database.dockerfile
     environment:
       FLASK_DEBUG: '1'
-      FLASK_APP: priv_tube.api
+      FLASK_APP: priv_tube.app
       DB_LOCATION: /app/data/app.db
     volumes:
       - ./docker/db_init.sh:/app/docker/db_init.sh

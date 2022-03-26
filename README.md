@@ -45,13 +45,17 @@ We have a Makefile created in the root of this directory for storing and executi
 We are using the PEP8 formatting standard.
 
 ## Modifying The Template Database
-We use flask-migrate to manage all of our database migrations, and it in turn uses alembic.
-When you create or modify a SQLAlchemy model, run `flask db migrate -m"your migration name here"` from the `/priv_tube/cms/db` folder to generate a new migration bringing in your changes.
-When you need to create a new custom migration (to do something like generate a seed or create a stored procedure), instead run `alembic revision -m"your migration name here"` from the `/priv_tube/cms/db/migrations`.
+We use `flask-migrate` to manage all of our database migrations, and it in turn wraps alembic.  New SQLAlchemy models need to be added to `./priv_tube/database/models`.
+Every model must extend `priv_tube.database.BaseModel`, and every SqlAlchemy definition must reference `priv_tube.database.db` (IE: `priv_tube.database.db.Column()`).
 
-To upgrade/downgrade the db, run `flask db upgrade/downgrade` locally (if you're working with it directly instead of using the docker image);
+To update the template database (and therefore get your changes sent out in the next deployment) you must create a Migration (for schema changes) or a Seed (for template data
+like default values).  The commands for all of these are defined in the project's `Makefile`.
 
-In both of the above scenarios, you will need to commit all the generated files.
+*  Before any template DB modifications, first make sure your local DB is up to date by running `make migrate-up`
+*  To create a new Migration for your newly added Model(s), run `make migrate-new`.  You will see a new Migration script gets added to `priv_tube/database/migrations/versions`.
+*  To create a new Seed, run `make seed-new`.  Much like migrations, you will see a new version get added to `priv_tube/database/migrations/versions`.
+
+Once completed, run `make migrate-up` to apply your new changes, verify they work as you expect, and then commit all the generated files in addition to the Models you initially created.
 
 ## Updating The Template Keycloak Configuration
 Run `docker-compose run export_keycloak` and then copy the contents of the JSON file generated in `./data/keycloak_export` to the template in `./resources/system/keycloak/keycloak-export.json`.
