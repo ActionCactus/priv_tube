@@ -1,5 +1,6 @@
 from priv_tube.core.boot.initialization_routines.execution_targets import ExecutionTargets
 from priv_tube.core.boot.initialization_routines.initialization_routine import InitializationRoutine
+from priv_tube.database.repositories.system_flags import SystemFlags
 
 
 class PromptSysadminOnFirstBoot(InitializationRoutine):
@@ -15,7 +16,12 @@ class PromptSysadminOnFirstBoot(InitializationRoutine):
         return "Prompt System Administrator For Setup"
 
     def run(self):
-        input("Set up your environment now.")
+        if SystemFlags.is_enabled("system_setup_complete"):
+            return
+
+        input("Set up your environment now (press ENTER when complete).")
+        SystemFlags.enable("system_setup_complete")
+
 
     @property
     def execution_target(self) -> ExecutionTargets:
