@@ -1,23 +1,22 @@
 import os
 import json
 from flask import Flask, Response
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
-
+from priv_tube.database import db, migrate
 from priv_tube.core.boot.initialization_routines.routines import initialize
 from priv_tube.core.boot.initialization_routines.execution_targets import ExecutionTargets
 
-if __name__ == "__main__":
-    # Run initialization checks if app is being invoked directly
-    initialize(ExecutionTargets.PRE_SYSTEM_CHECK)
 
 app = Flask(__name__)
 db_file = os.environ.get("DB_LOCATION")
 app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{db_file}"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.app_context().push()
+db.init_app(app)
+migrate.init_app(app)
 
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
+if __name__ == "__main__":
+    # Run initialization checks if app is being invoked directly
+    initialize(ExecutionTargets.PRE_SYSTEM_CHECK)
 
 
 @app.route("/")
