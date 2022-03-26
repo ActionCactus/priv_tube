@@ -1,6 +1,5 @@
 import os
 import json
-import sqlalchemy
 from flask import Flask, Response
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -8,10 +7,12 @@ from flask_migrate import Migrate
 from priv_tube.core.boot.initialization_routines.routines import initialize
 from priv_tube.core.boot.initialization_routines.execution_targets import ExecutionTargets
 
+if __name__ == "__main__":
+    # Run initialization checks if app is being invoked directly
+    initialize(ExecutionTargets.PRE_SYSTEM_CHECK)
 
-initialize(ExecutionTargets.PRE_SYSTEM_CHECK)
 app = Flask(__name__)
-db_file = os.environ["DB_LOCATION"]
+db_file = os.environ.get("DB_LOCATION")
 app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{db_file}"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
@@ -25,16 +26,16 @@ def hello():
     response.headers.add("Content-Type", "application/json")
 
     # List of Row objects: https://docs.sqlalchemy.org/en/14/core/connections.html#sqlalchemy.engine.Row
-    res = db.session.execute("SELECT * FROM users").all()
+    # res = db.session.execute("SELECT * FROM users").all()
 
-    db_vals = [row._asdict() for row in res]
+    # db_vals = [row._asdict() for row in res]
 
     response.set_data(
         json.dumps(
             {
                 "data": {
                     "message": "Big memes",
-                    "db_values": db_vals,
+                    "db_values": [],  # db_vals,
                     "href": "http://www.google.com",
                 }
             },
@@ -48,9 +49,3 @@ def hello():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(debug=True, host="0.0.0.0", port=port)
-
-
-class User(sqlalchemy.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String(128))
-    last_name = db.Column(db.String(128))
