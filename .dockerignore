@@ -1,0 +1,10 @@
+data
+.vscode
+.venv
+.pytest_cache
+.mypy_cache
+.git
+.github
+.benchmarks
+__pycache__
+tests
