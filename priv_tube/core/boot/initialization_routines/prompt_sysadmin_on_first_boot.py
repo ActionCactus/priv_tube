@@ -19,10 +19,13 @@ class PromptSysadminOnFirstBoot(InitializationRoutine):
         if SystemFlags.is_enabled("system_setup_complete"):
             return
 
-        input("Set up your environment now (press ENTER when complete).")
+        self._prompt_user()
         SystemFlags.enable("system_setup_complete")
 
 
     @property
     def execution_target(self) -> ExecutionTargets:
         return ExecutionTargets.PRE_SYSTEM_CHECK
+
+    def _prompt_user(self):
+        input("Set up your environment now (press ENTER when complete).")
