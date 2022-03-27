@@ -4,6 +4,3 @@ COPY . /app
 WORKDIR /app
 RUN pip install gunicorn
 RUN pip install -r requirements.txt
-
-
-# ENTRYPOINT ["python -m priv_tube.api run"]
